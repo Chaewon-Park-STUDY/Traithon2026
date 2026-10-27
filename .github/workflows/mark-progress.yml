@@ -1,0 +1,77 @@
+name: 교육 진도 체크
+
+on:
+  workflow_dispatch:
+    inputs:
+      member:
+        description: "팀원 이름"
+        required: true
+        type: choice
+        options:
+          - 김민서
+          - 박소이
+          - 박채원
+          - 송윤상
+          - 황인경
+      start:
+        description: "시작 강의 번호 (예: 3 또는 3.1.2)"
+        required: true
+        default: "3"
+      end:
+        description: "끝 강의 번호 (예: 3.5 또는 4.5)"
+        required: true
+        default: "3.5"
+      mode:
+        description: "체크할지 되돌릴지"
+        required: true
+        type: choice
+        default: check
+        options:
+          - check
+          - uncheck
+
+permissions:
+  contents: write
+
+concurrency:
+  group: progress-tracker
+  cancel-in-progress: false
+
+jobs:
+  mark:
+    runs-on: ubuntu-latest
+    env:
+      TRACKER: 교육진도/traithon-progress-tracker.md
+      MEMBER: ${{ inputs.member }}
+      START: ${{ inputs.start }}
+      END: ${{ inputs.end }}
+      MODE: ${{ inputs.mode }}
+      ACTOR: ${{ github.actor }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 범위 체크
+        run: python3 scripts/mark.py "$TRACKER" "$MEMBER" "$START" "$END" "$MODE"
+
+      - name: 변경 저장
+        run: |
+          if git diff --quiet -- "$TRACKER"; then
+            echo "바뀐 내용이 없어 저장하지 않습니다."
+          else
+            git config user.name "education-progress-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -- "$TRACKER"
+            git commit -m "교육진도: $MEMBER $START~$END $MODE (실행: $ACTOR)"
+            git pull --rebase
+            git push
+          fi
+
+      - name: 진행률 계산
+        run: |
+          python3 scripts/progress.py "$TRACKER" | tee progress_summary.md
+          cat progress_summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Discord 알림 (웹훅이 설정된 경우만)
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python3 scripts/notify_discord.py progress_summary.md
