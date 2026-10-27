@@ -1,0 +1,29 @@
+name: 교육 진도 점검
+
+on:
+  push:
+    paths:
+      - "교육진도/traithon-progress-tracker.md"
+  schedule:
+    # 매주 월요일 오전 9시(KST) = 일요일 24시(UTC)
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  progress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 진행률 계산
+        run: |
+          python3 scripts/progress.py "교육진도/traithon-progress-tracker.md" | tee progress_summary.md
+          cat progress_summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Discord 알림 (웹훅이 설정된 경우만)
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python3 scripts/notify_discord.py progress_summary.md
