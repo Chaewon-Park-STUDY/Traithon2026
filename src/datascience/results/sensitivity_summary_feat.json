@@ -1,0 +1,24 @@
+{
+  "score_name": "feat",
+  "assumptions": {
+    "N": 1000,
+    "C": 300,
+    "s": 0.278,
+    "pi": [
+      0.05,
+      0.1,
+      0.25
+    ],
+    "per_reviewer": 150
+  },
+  "sensitive_only_load": 0.278,
+  "sensitive_only_reviewers": 2,
+  "smallest_alpha_meeting_capacity_pi01": null,
+  "category_conditional_maxq_a005": {
+    "cov_direct": 0.9638009049773756,
+    "cov_auto": 0.9940652818991098,
+    "load_pi0_1": 0.8897627653150916
+  },
+  "category_calib_needed_per_cat_per_class": 360,
+  "category_calib_have_min": 51
+}
