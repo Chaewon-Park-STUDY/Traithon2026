@@ -1,0 +1,15 @@
+split,category,0,1
+Training,IT&과학,17948,15390
+Training,경제,18578,15601
+Training,사회,25425,22302
+Training,생활&문화,15730,10713
+Training,세계,19376,17692
+Training,연예,15743,13870
+Training,정치,18148,14750
+Validation,IT&과학,2040,1682
+Validation,경제,2064,1695
+Validation,사회,2793,2492
+Validation,생활&문화,1713,1184
+Validation,세계,2100,2006
+Validation,연예,1731,1556
+Validation,정치,1958,1675

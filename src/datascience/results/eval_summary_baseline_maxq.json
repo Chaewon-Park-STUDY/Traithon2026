@@ -1,0 +1,29 @@
+{
+  "score_name": "baseline_maxq",
+  "n_test": 3232,
+  "ece_test": 0.09057778294970409,
+  "refer_rate_test": 0.6840965346534653,
+  "route_share": {
+    "human_ambiguous": 0.5028,
+    "human_sensitive": 0.2806,
+    "confirm_queue": 0.1414,
+    "auto_pass": 0.0752
+  },
+  "category_cov_range": [
+    0.9423076923076923,
+    0.9776119402985075
+  ],
+  "category_fc_range": [
+    0.041884816753926704,
+    0.08376963350785341
+  ],
+  "checks": {
+    "MDL01_(1)_coverage_lo>=1-a-eps_DIRECT": true,
+    "MDL01_(1)_coverage_lo>=1-a-eps_AUTO": true,
+    "refer_rate_overall<=0.30": false,
+    "politics_gap_fpr<=0.05": true,
+    "econ_gap_fpr<=0.05": true,
+    "politics_gap_cov<=0.05": true,
+    "econ_gap_cov<=0.05": true
+  }
+}

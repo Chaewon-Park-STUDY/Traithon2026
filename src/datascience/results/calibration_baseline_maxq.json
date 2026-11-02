@@ -1,0 +1,23 @@
+{
+  "score_name": "baseline",
+  "mode": "max",
+  "q_clickbait_auto": 0.814017722576412,
+  "alpha": 0.05,
+  "q_clickbait": 0.814017722576412,
+  "q_normal": 0.7246735508847095,
+  "n_calib_clickbait_direct": 540,
+  "n_calib_normal": 540,
+  "calib_coverage_dist": {
+    "clickbait": {
+      "n": 540,
+      "l": 27,
+      "p_cov_ge_1_a_eps": 0.9762171291030618
+    },
+    "normal": {
+      "n": 540,
+      "l": 27,
+      "p_cov_ge_1_a_eps": 0.9762171291030618
+    }
+  },
+  "rule": "C(x) = {cb if 1-p_cb <= q_clickbait} ∪ {normal if p_cb <= q_normal}; 둘 다/공집합 = 애매(인간 이관), 정치·경제 = 항상 이관"
+}

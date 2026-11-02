@@ -1,0 +1,13 @@
+split,label,process_type,part,0
+Training,0,Auto,Part1,65454
+Training,0,Auto,Part2,65494
+Training,1,Auto,Part1,42111
+Training,1,Auto,Part2,41178
+Training,1,Direct,Part1,13487
+Training,1,Direct,Part2,13542
+Validation,0,Auto,Part1,7220
+Validation,0,Auto,Part2,7179
+Validation,1,Auto,Part1,4659
+Validation,1,Auto,Part2,4580
+Validation,1,Direct,Part1,1552
+Validation,1,Direct,Part2,1499

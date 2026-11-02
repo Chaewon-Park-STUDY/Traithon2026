@@ -1,0 +1,13 @@
+{
+  "score_name": "en_tfidf",
+  "n": 19538,
+  "spearman_p_vs_truthMean": {
+    "rho": 0.5850290320182537,
+    "p": 0.0
+  },
+  "ece_vs_truthClass": 0.04762655622042762,
+  "abs_p_minus_half": {
+    "high_disagree": 0.27189887323382633,
+    "others": 0.310645097048378
+  }
+}

@@ -1,0 +1,11 @@
+,value
+rows,267955
+unique_ids,267955
+dup_ids_across_split,0
+multi_class_ids,0
+label_missing,0
+flag_empty,0
+flag_short,0
+flag_nonko,3
+flag_pii,57
+hold,3

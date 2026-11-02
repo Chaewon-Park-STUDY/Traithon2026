@@ -1,0 +1,78 @@
+{
+  "seed": 20261102,
+  "policy": {
+    "alpha": 0.05,
+    "eps": 0.02,
+    "delta": 0.05,
+    "h_direct": 0.02,
+    "h_category": 0.05,
+    "recall_assumed": 0.95
+  },
+  "scale": 1.5,
+  "min_sizes": {
+    "calib": 360,
+    "test_direct": 589,
+    "test_cat": 127
+  },
+  "target": {
+    "calib_per_class": 540,
+    "test_direct_cb": 884,
+    "test_per_cat_per_class": 191
+  },
+  "counts": [
+    {
+      "subset": "calib",
+      "label": 0,
+      "process_type": "Auto",
+      "n": 540
+    },
+    {
+      "subset": "calib",
+      "label": 1,
+      "process_type": "Direct",
+      "n": 540
+    },
+    {
+      "subset": "calib_auto_check",
+      "label": 1,
+      "process_type": "Auto",
+      "n": 540
+    },
+    {
+      "subset": "dev",
+      "label": 0,
+      "process_type": "Auto",
+      "n": 500
+    },
+    {
+      "subset": "dev",
+      "label": 1,
+      "process_type": "Auto",
+      "n": 382
+    },
+    {
+      "subset": "dev",
+      "label": 1,
+      "process_type": "Direct",
+      "n": 118
+    },
+    {
+      "subset": "test",
+      "label": 0,
+      "process_type": "Auto",
+      "n": 1337
+    },
+    {
+      "subset": "test",
+      "label": 1,
+      "process_type": "Auto",
+      "n": 1011
+    },
+    {
+      "subset": "test",
+      "label": 1,
+      "process_type": "Direct",
+      "n": 884
+    }
+  ]
+}
