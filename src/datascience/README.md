@@ -16,7 +16,10 @@ BaseKit 4 §4-3~4-7, BaseKit 5 §5-4·MDL-01, BaseKit 7 §7-5 절차를 그대�
 | Webis 정제 | `python -X utf8 scripts/d2_build_webis.py` | clean_webis.parquet (완료) |
 | D3·D4 분할 | `python -X utf8 scripts/d4_split.py --scale 1.5` | split_manifest.csv, slice_registry.csv, split_summary.json |
 | 기준선 점수 | `python -X utf8 scripts/d5_baseline_scores.py` | scores_baseline.csv |
-| A.X 점수(GPU) | Colab에서 `score_ax.py` (파일 안 사용법 참고) | scores_ax.csv, scores_webis_ax.csv |
+| A.X 점수(GPU) | Colab(T4 무료, 4비트)에 `colab/colab_score_ax.py`와 입력 parquet를 올려 실행 → 받은 `ax_scores.csv`를 `python scripts/d17_ax_import.py <경로>`로 가져오면 보정·평가·인젝션 지표까지 한 번에 계산 | scores_ax.csv, injection_summary_ax.json |
+| 안정성 | `python scripts/d13_stability.py <name> 200` | stability_summary_<name>.json |
+| 카테고리 보정 v2 | `python scripts/d14_category_calib.py` | category_calib_v2.csv |
+| 추적표·대시보드 | `d15_traceability.py`, `d16_dashboard.py` | traceability_datascience.xlsx, dashboard.html |
 | D6 보정 | `python -X utf8 scripts/d6_calibrate.py ax` | calibration_ax.json |
 | D7 평가 | `python -X utf8 scripts/d7_evaluate.py ax` | eval_ax.csv, eval_summary_ax.json, test_decisions_ax.csv |
 | D8 Webis | `python -X utf8 scripts/d8_webis_eval.py ax` | webis_eval_summary_ax.json |
@@ -34,4 +37,5 @@ BaseKit 4 §4-3~4-7, BaseKit 5 §5-4·MDL-01, BaseKit 7 §7-5 절차를 그대�
 
 ## 실제 데이터에서 다시 확인할 것
 - AI-Hub JSON 필드 위치(코드는 키 이름으로 찾음: newsID, newsCategory, newsTitle, newsContent, partNum, processType, processPattern, processLevel, clickbaitClass, newTitle, referSentenceInfo, processSentenceInfo). 첫 실행 후 dq_metrics_summary.csv의 label_missing·flag 수와 660,085건 일치 여부를 본다.
-- score_ax.py는 GPU가 없어 이 노트북에서 실행 시험을 못 했다. Colab에서 `--limit 32`로 먼저 돌려 answer_mass를 확인한다.
+- 운영팀 GPU는 받지 못해 Colab 무료 T4에서 4비트(NF4)로 실행한다(팀 결정, 2026-11-03). 16비트 원 모델과 확률이 조금 다를 수 있다. 16건 시험에서 답 토큰 확률 합 0.998 이상으로 형식은 정상.
+- Colab 세션 파일은 런타임이 끝나면 지워진다. 결과 CSV는 받은 즉시 내려받는다.
