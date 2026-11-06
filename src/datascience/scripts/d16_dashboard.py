@@ -8,7 +8,7 @@ from common import OUT
 
 J = lambda f: json.load(open(os.path.join(OUT, f), encoding="utf-8")) if os.path.exists(os.path.join(OUT, f)) else None
 C = lambda f: pd.read_csv(os.path.join(OUT, f)) if os.path.exists(os.path.join(OUT, f)) else None
-MODELS = [("baseline", "TF-IDF 기준선", 1), ("feat", "정합성 기준선", 2), ("ax", "A.X 4.0 Light", 3)]
+MODELS = [("baseline", "TF-IDF 기준선", 1), ("feat", "정합성 기준선", 2), ("ax", "A.X zero-shot", 3), ("axft", "A.X 미세조정", 4)]
 MODELS = [m for m in MODELS if os.path.exists(os.path.join(OUT, f"eval_{m[0]}_maxq.csv"))]
 esc = html.escape
 
@@ -119,7 +119,7 @@ stab_rows = "".join(f"<tr><td>{esc(k)}</td><td>{v['cov_dir']['mean']:.3f}</td><t
 kpis = [("테스트 기사", f"{fs['n_test']:,}건", "AI-Hub 샘플, 층화 추출"),
         ("Direct 커버리지", f"{fe.loc['DIRECT_cb+all_ok','coverage_cb']:.3f}", f"95% 하한 {fe.loc['DIRECT_cb+all_ok','coverage_cb_lo']:.3f} · 목표 0.93"),
         ("Auto 커버리지", f"{fe.loc['AUTO_cb+all_ok','coverage_cb']:.3f}", f"95% 하한 {fe.loc['AUTO_cb+all_ok','coverage_cb_lo']:.3f} · 목표 0.93"),
-        ("사람 검토 이관율", f"{fs['refer_rate_test']:.2f}", "목표 0.30 이하"),
+        ("애매 구간 이관율", f"{fs['refer_rate_test']:.2f}", f"정치·경제 의무 이관 {fs['route_share'].get('human_sensitive',0):.2f} 별도 · 원 기준 0.30"),
         ("필요 검토자(α=0.05)", f"{rev_a05}명" if rev_a05 else "-", "가정 2명 · 하루 1,000건")]
 kpi_html = "".join(f'<div class="kpi"><div class="kl">{esc(a)}</div><div class="kv">{esc(b)}</div><div class="ks">{esc(c)}</div></div>' for a, b, c in kpis)
 
@@ -127,8 +127,8 @@ page = f"""<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name
 <title>레드투그린 클릭베이트 탐지 신뢰성 검증 대시보드</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
-:root{{--surface:#fcfcfb;--card:#ffffff;--t1:#0b0b0b;--t2:#52514e;--t3:#8a8984;--grid:#e8e7e3;--s0:#c9c8c2;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--ref:#52514e}}
-@media (prefers-color-scheme:dark){{:root{{--surface:#1a1a19;--card:#222220;--t1:#f0efec;--t2:#c3c2b7;--t3:#8f8e86;--grid:#33332f;--s0:#55554f;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--ref:#c3c2b7}}}}
+:root{{--surface:#fcfcfb;--card:#ffffff;--t1:#0b0b0b;--t2:#52514e;--t3:#8a8984;--grid:#e8e7e3;--s0:#c9c8c2;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--ref:#52514e}}
+@media (prefers-color-scheme:dark){{:root{{--surface:#1a1a19;--card:#222220;--t1:#f0efec;--t2:#c3c2b7;--t3:#8f8e86;--grid:#33332f;--s0:#55554f;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--ref:#c3c2b7}}}}
 *{{box-sizing:border-box}}body{{margin:0;background:var(--surface);color:var(--t1);font-family:Pretendard,system-ui,sans-serif}}
 header{{padding:28px 32px 8px}}h1{{font-size:22px;margin:0 0 6px}}.sub{{color:var(--t2);font-size:13px}}
 .kpis{{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:16px 32px}}.kpi{{background:var(--card);border:1px solid var(--grid);border-radius:10px;padding:14px}}
@@ -137,10 +137,10 @@ header{{padding:28px 32px 8px}}h1{{font-size:22px;margin:0 0 6px}}.sub{{color:va
 h2{{font-size:15px;margin:0 0 4px}}.note{{font-size:12px;color:var(--t2);margin:0 0 8px;line-height:1.5}}
 svg{{width:100%;height:auto;display:block}}.grid{{stroke:var(--grid);stroke-width:1}}.tick{{fill:var(--t2);font-size:11px}}
 .ref{{stroke:var(--ref);stroke-width:1;stroke-dasharray:4 3}}.reflab{{fill:var(--t2);font-size:11px}}.whisk{{stroke:var(--t1);stroke-width:1.5}}
-.s0{{fill:var(--s0)}}.s1{{fill:var(--s1)}}.s2{{fill:var(--s2)}}.s3{{fill:var(--s3)}}
-.ln{{fill:none;stroke-width:2}}.ln.s1{{stroke:var(--s1)}}.ln.s2{{stroke:var(--s2)}}.ln.s3{{stroke:var(--s3)}}.dot{{stroke:var(--card);stroke-width:2}}.conn{{stroke:var(--t3);stroke-width:1.5}}
+.s0{{fill:var(--s0)}}.s1{{fill:var(--s1)}}.s2{{fill:var(--s2)}}.s3{{fill:var(--s3)}}.s4{{fill:var(--s4)}}
+.ln{{fill:none;stroke-width:2}}.ln.s1{{stroke:var(--s1)}}.ln.s2{{stroke:var(--s2)}}.ln.s3{{stroke:var(--s3)}}.ln.s4{{stroke:var(--s4)}}.dot{{stroke:var(--card);stroke-width:2}}.conn{{stroke:var(--t3);stroke-width:1.5}}
 .lg{{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-size:12px;color:var(--t2)}}.sw{{width:10px;height:10px;border-radius:3px;display:inline-block}}
-.sw.s0{{background:var(--s0)}}.sw.s1{{background:var(--s1)}}.sw.s2{{background:var(--s2)}}.sw.s3{{background:var(--s3)}}
+.sw.s0{{background:var(--s0)}}.sw.s1{{background:var(--s1)}}.sw.s2{{background:var(--s2)}}.sw.s3{{background:var(--s3)}}.sw.s4{{background:var(--s4)}}
 details{{margin-top:8px;font-size:12px}}table{{border-collapse:collapse;width:100%;margin-top:6px}}td,th{{border-bottom:1px solid var(--grid);padding:4px 6px;text-align:left}}th{{color:var(--t2);font-weight:600}}
 #tip{{position:fixed;pointer-events:none;background:var(--t1);color:var(--surface);font-size:12px;padding:6px 8px;border-radius:6px;opacity:0;transition:opacity .1s}}
 .hit{{cursor:default}}footer{{padding:0 32px 32px;color:var(--t3);font-size:11px;line-height:1.6}}

@@ -1,0 +1,26 @@
+{
+  "score_name": "axft",
+  "n": 2000,
+  "spearman_p_vs_truthMean": {
+    "rho": 0.17227961553466206,
+    "p": 8.639189258820384e-15
+  },
+  "ece_vs_truthClass": 0.14749068083427846,
+  "korean_q_applied": {
+    "coverage_cb": 0.2194616977225673,
+    "ci": [
+      0.18332916188319578,
+      0.2590690045916428
+    ],
+    "refer_rate": 0.1365
+  },
+  "judge_sd_ambiguous_vs_not": {
+    "mean_amb": 0.2504169800865749,
+    "mean_not": 0.23990445130794494,
+    "mannwhitney_p": 0.17313401253937521
+  },
+  "abs_p_minus_half": {
+    "high_disagree": 0.19668470485841186,
+    "others": 0.2111898152766003
+  }
+}
