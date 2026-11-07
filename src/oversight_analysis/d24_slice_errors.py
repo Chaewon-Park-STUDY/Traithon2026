@@ -15,6 +15,8 @@ def cp(k, n, a=0.05):
 
 def main(outputs, tag, out):
     dec = pd.read_csv(os.path.join(outputs, f"test_decisions_{tag}.csv"))
+    if "subset" in dec.columns:   # 보정 점검용 행(calib_auto_check)이 섞여 있으므로 main test만 쓴다
+        print("subset 구성:", dec.subset.value_counts().to_dict()); dec = dec[dec.subset == "test"].copy()
     ids = set(dec.news_id.astype(str))
     t = pq.read_table(os.path.join(outputs, "clean_main.parquet"), columns=["news_id", "title"]).to_pandas()
     t["news_id"] = t.news_id.astype(str); t = t[t.news_id.isin(ids)]
