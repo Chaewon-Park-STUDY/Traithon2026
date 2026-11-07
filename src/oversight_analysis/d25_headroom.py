@@ -23,6 +23,8 @@ def rate(k, n):
 
 def main(outputs, tag, out, s):
     d = pd.read_csv(os.path.join(outputs, f"test_decisions_{tag}.csv"))
+    if "subset" in d.columns:   # 보정 점검용 행(calib_auto_check)이 섞여 있으므로 main test만 쓴다
+        print("subset 구성:", d.subset.value_counts().to_dict()); d = d[d.subset == "test"].copy()
     d["sens"] = d.category.isin(SENSITIVE)
     d["cls"] = np.where(d.label == 1, "클릭베이트", "정상")
     os.makedirs(out, exist_ok=True)

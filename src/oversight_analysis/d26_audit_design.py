@@ -52,6 +52,8 @@ def min_n(k0, k1, target=0.8):
 def load(outputs, tag, scores):
     d = pd.read_csv(os.path.join(outputs, f"test_decisions_{tag}.csv"))
     print("test_decisions 컬럼:", list(d.columns))
+    if "subset" in d.columns:   # 보정 점검용 행(calib_auto_check)이 섞여 있으므로 main test만 쓴다
+        print("subset 구성:", d.subset.value_counts().to_dict()); d = d[d.subset == "test"].copy()
     col = next((c for c in ("p_cb", "score", "p") if c in d.columns), None)
     if col is None:
         cands = [scores] if scores else sorted(glob.glob(os.path.join(outputs, "scores_*.csv")))
