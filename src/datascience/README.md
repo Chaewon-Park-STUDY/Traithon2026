@@ -17,6 +17,7 @@ BaseKit 4 §4-3~4-7, BaseKit 5 §5-4·MDL-01, BaseKit 7 §7-5 절차를 그대�
 | D3·D4 분할 | `python -X utf8 scripts/d4_split.py --scale 1.5` | split_manifest.csv, slice_registry.csv, split_summary.json |
 | 기준선 점수 | `python -X utf8 scripts/d5_baseline_scores.py` | scores_baseline.csv |
 | A.X 점수(GPU) | Colab(T4 무료, 4비트)에 `colab/colab_score_ax.py`와 입력 parquet를 올려 실행 → 받은 `ax_scores.csv`를 `python scripts/d17_ax_import.py <경로>`로 가져오면 보정·평가·인젝션 지표까지 한 번에 계산 | scores_ax.csv, injection_summary_ax.json |
+| A.X 미세조정 점수 | GPU(H100) LoRA 미세조정 모델 점수 `results/ax_ft_scores.csv`(열: key, group, p_cb, answer_mass, 기사 제목·본문 없음)를 `python scripts/d17_ax_import.py results/ax_ft_scores.csv axft`로 가져오기 | scores_axft.csv, injection_summary_axft.json |
 | 안정성 | `python scripts/d13_stability.py <name> 200` | stability_summary_<name>.json |
 | 카테고리 보정 v2 | `python scripts/d14_category_calib.py` | category_calib_v2.csv |
 | 추적표·대시보드 | `d15_traceability.py`, `d16_dashboard.py` | traceability_datascience.xlsx, dashboard.html |
