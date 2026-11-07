@@ -8,6 +8,7 @@
 | `mdp_alpha.py`, `run_mdp.py` | 대기량에 따라 α를 고르는 소형 MDP(value iteration) | `results/alpha_sweep_axft.csv`의 maxq 행 |
 | `optimize_options.py` | (1) 인력 R × 이관 범위 s × α 전수 탐색(부하 상한 ≤ 용량인 조합 중 미포착 상한 최소), (2) 안정 영역에서 MDP 최적 vs greedy vs 고정 α 비교(`--dynamic`, 약 1분) | 동일 + 시나리오 값(c, s, κ) |
 | `d23_slice_count.py` | 제목 표현 슬라이스(F1 지시어, F2 말줄임표, F3 의문형, F4 짧은 제목) 개수를 라벨·가공 방식·민감 여부별로 세고, Trigger에 플래그를 추가했을 때 일 추가 이관 건수의 범위를 계산 | AI-Hub 라벨링 JSON(폴더 또는 zip) |
+| `d24_slice_errors.py` | 지시어(F1)·의문형(F3) 제목에서 모델의 미포착률·애매 이관율·확정 후보 비율이 다른지 집계(CP 구간, Fisher 검정). 입력은 소이님 파이프라인의 `test_decisions_<tag>.csv`와 `clean_main.parquet` | outputs 폴더(행 단위, 로컬 전용) |
 | `d22_ic_sim.py` | interval-censored 발견 시간의 불확실성 폭 시뮬레이션 | 없음(시나리오 값) |
 
 실행: 각 파일이 있는 폴더에서 `python load_interval.py`, `python run_mdp.py`(약 2분), `python d22_ic_sim.py`.
@@ -23,3 +24,4 @@
 - 출력 원본은 `results/optimize_options_out.txt`.
 - `d23_slice_count.py`: 규칙(지시어 목록, 말줄임표, 물음표, 5어절 이하)은 결과를 보기 전에 커밋해 사전 등록하고, 결과를 보고 규칙을 바꾸지 않는다. 출력은 집계 CSV(`d23_slice_counts.csv`)뿐이고 제목·본문·ID는 저장하지 않는다.
 - AI-Hub 클릭베이트 제목의 일부(Auto)는 모델이 만든 제목이라 플래그 비율 f는 서비스의 f가 아니다. 부하 영향 범위는 이 값을 쓴 시나리오다. 현재 이관과 플래그의 겹침은 Soi님 행 단위 결과 없이 알 수 없어 하한 0, 독립 가정, 상한 세 가지로 제시한다.
+- `d24_slice_errors.py`는 탐색적 분석이다. 비교 플래그를 F1, F3로 정한 것은 d23 개수(모델 오류와 무관)를 보고 한 선택이고, 사건 수가 작은 행은 해석하지 않는다. 출력은 집계 CSV뿐이다.
