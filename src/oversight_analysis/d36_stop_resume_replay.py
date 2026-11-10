@@ -6,7 +6,7 @@ import sys, re, csv, os
 
 CAP_PER, LOAD_PER = 150, 0.376      # demo_app.py와 동일 (A4 가정, 실측 부하)
 WARN_U, HOLD_U = 0.9, 1.0           # 5-B6: 90% 초과 알림, 100% 초과 보류
-WARN_STRICT, HOLD_STRICT = True, True   # '넘으면' = 초과(>). drift check에서 코드와 비교
+WARN_STRICT, HOLD_STRICT = False, False  # demo_app.py 구현은 u >= 0.9, u >= 1.0 (이상). 5-B6 원문 '넘으면'(초과)과 경계가 다름
 STOP_DAYS, STOP_WAIT = 3, 24        # 3일 연속 초과, 24시간 이상 대기
 STAGE = {0: "정상", 1: "경고", 2: "게시 보류", 3: "자동 처리 중지"}
 
@@ -78,8 +78,8 @@ def tests():
     add("T-04", "3일 연속 초과 중지", "연속초과3일", "자동 처리 중지", S(util(1000,2),3,10), "5-B6 (4)")
     add("T-05", "대기 24h 중지 경계", "대기24h", "자동 처리 중지", S(0.5,0,24), "5-B6 (4)")
     add("T-06", "대기 23h는 중지 아님", "대기23h", "정상", S(0.5,0,23), "5-B6 (4) 경계")
-    add("T-07", "사용률 정확히 90%", "u=0.9", "정상", S(0.9,0,0), "5-B6 (2) '넘으면'")
-    add("T-08", "사용률 정확히 100%", "u=1.0", "경고", S(1.0,0,0), "5-B6 (3) '넘으면'")
+    add("T-07", "사용률 정확히 90% (경계)", "u=0.9", "경고", S(0.9,0,0), "구현 u>=0.9 (5-B6 원문 '넘으면'과 경계 상이, BK에 기록)")
+    add("T-08", "사용률 정확히 100% (경계)", "u=1.0", "게시 보류", S(1.0,0,0), "구현 u>=1.0 (5-B6 원문 '넘으면'과 경계 상이, BK에 기록)")
     add("T-09", "중지 중 승인 없음", "stopped, approved=0", "False", str(can_resume(False,0.5,0)), "제안 재개 조건 R(a)")
     add("T-10", "승인했으나 사용률 높음", "approved=1, u=1.25", "False", str(can_resume(True,1.25,0)), "제안 재개 조건 R(b)")
     add("T-11", "승인했으나 24h 대기 잔존", "approved=1, 대기24h", "False", str(can_resume(True,0.5,24)), "제안 재개 조건 R(c)")
@@ -96,7 +96,7 @@ def drift_check(path):
     src = open(path, encoding="utf-8").read()
     m = re.search(r"CAP_PER\s*,\s*LOAD_PER\s*=\s*([\d.]+)\s*,\s*([\d.]+)", src)
     print("[drift] CAP_PER, LOAD_PER =", m.groups() if m else "찾지 못함", "| 이 스크립트:", CAP_PER, LOAD_PER)
-    for pat in [r"days_over\s*>=\s*(\d+)", r"max_wait\s*>=\s*(\d+)", r"u\s*>=?\s*([\d.]+)"]:
+    for pat in [r"days_over\s*(>=?)\s*(\d+)", r"max_wait\s*(>=?)\s*(\d+)", r"\bu\s*(>=?)\s*([\d.]+)"]:
         print("[drift]", pat, "->", re.findall(pat, src))
     print("[drift] 코드의 u 비교 연산자(>= 또는 >)와 이 스크립트(WARN_STRICT/HOLD_STRICT)를 대조하세요.")
 
