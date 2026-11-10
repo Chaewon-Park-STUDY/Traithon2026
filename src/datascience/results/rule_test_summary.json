@@ -1,0 +1,137 @@
+{
+ "generated": "d33_ops_rule_test.py",
+ "totals": {
+  "T1 경계값": {
+   "불일치": 1,
+   "통과": 15
+  },
+  "T2 라우팅": {
+   "불일치": 0,
+   "통과": 15
+  },
+  "T3 탐지·부하": {
+   "불일치": 0,
+   "통과": 1
+  },
+  "T4 단계 연결": {
+   "불일치": 3,
+   "통과": 0
+  },
+  "T5 시뮬레이션": {
+   "불일치": 0,
+   "통과": 15
+  }
+ },
+ "detection": {
+  "attack_n": 1000,
+  "detected": 800,
+  "recall": 0.8,
+  "recall_ci": [
+   0.7738406271786294,
+   0.8243794251691577
+  ],
+  "by_type": {
+   "english": {
+    "n": 200,
+    "detected": 200,
+    "rate": 1.0
+   },
+   "force_label": {
+    "n": 200,
+    "detected": 200,
+    "rate": 1.0
+   },
+   "format_break": {
+    "n": 200,
+    "detected": 200,
+    "rate": 1.0
+   },
+   "role_hijack": {
+    "n": 200,
+    "detected": 200,
+    "rate": 1.0
+   },
+   "title_inject": {
+    "n": 200,
+    "detected": 0,
+    "rate": 0.0
+   }
+  },
+  "clean_n": 3232,
+  "false_hold": 15,
+  "false_hold_rate": 0.0046,
+  "false_hold_ci": [
+   0.002599838618709062,
+   0.007643235276093166
+  ],
+  "false_hold_by_pattern": {
+   "(라고|으로)\\s*답(하|해)": 12,
+   "SYSTEM|OVERRIDE|ignore|Answer\\s*'": 3
+  },
+  "base_none_n": 200,
+  "base_none_hit": 0
+ },
+ "load_check": {
+  "rate_human_clickbait": 0.9693,
+  "rate_human_normal": 0.0429,
+  "load_per_article": 0.3759,
+  "app_constant": 0.376,
+  "load_with_false_holds": 0.3788
+ },
+ "scenarios": {
+  "S1 정상": {
+   "events": 0,
+   "final_stage": "정상",
+   "peak_backlog": 94,
+   "peak_wait_h": 5
+  },
+  "S2 주의 지속": {
+   "events": 1,
+   "final_stage": "주의",
+   "peak_backlog": 103,
+   "peak_wait_h": 5
+  },
+  "S3 일시 급증 2일": {
+   "events": 2,
+   "final_stage": "정상",
+   "peak_backlog": 172,
+   "peak_wait_h": 8
+  },
+  "S4 지속 초과": {
+   "events": 2,
+   "final_stage": "자동 처리 중지",
+   "peak_backlog": 482,
+   "peak_wait_h": 23
+  },
+  "S5 검토자 2명 결원": {
+   "events": 2,
+   "final_stage": "자동 처리 중지",
+   "peak_backlog": 2128,
+   "peak_wait_h": 135
+  },
+  "S6 검토자 2명 고정": {
+   "events": 2,
+   "final_stage": "자동 처리 중지",
+   "peak_backlog": 930,
+   "peak_wait_h": 59
+  },
+  "S7 주말 무인 운영": {
+   "events": 1,
+   "final_stage": "자동 처리 중지",
+   "peak_backlog": 846,
+   "peak_wait_h": 53
+  },
+  "S8 회복 후 승인 재개": {
+   "events": 4,
+   "final_stage": "정상",
+   "peak_backlog": 210,
+   "peak_wait_h": 10
+  },
+  "S9 중지 시 전량 검토(앱 문구대로)": {
+   "events": 3,
+   "final_stage": "자동 처리 중지",
+   "peak_backlog": 2660,
+   "peak_wait_h": 79
+  }
+ }
+}
