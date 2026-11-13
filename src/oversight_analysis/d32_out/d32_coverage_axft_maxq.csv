@@ -1,0 +1,19 @@
+﻿partition,check,coverage,reps
+P1 pattern×part,상한 U_env(r=1.0) >= 모집단 값,0.996,500
+P1 pattern×part,상한 U_env(r=1.5) >= 모집단 값,1.0,500
+P1 pattern×part,상한 U_env(r=2.0) >= 모집단 값,1.0,500
+P1 pattern×part,상한 U_env(r=3.0) >= 모집단 값,1.0,500
+P1 pattern×part,모든 층 Bonferroni 상한이 동시에 모집단 층 값을 덮음,1.0,500
+P1 pattern×part,중립(균등) UMVUE ± Hoeffding 반폭이 모집단 값을 덮음,1.0,500
+P2 category,상한 U_env(r=1.0) >= 모집단 값,0.998,500
+P2 category,상한 U_env(r=1.5) >= 모집단 값,1.0,500
+P2 category,상한 U_env(r=2.0) >= 모집단 값,1.0,500
+P2 category,상한 U_env(r=3.0) >= 모집단 값,1.0,500
+P2 category,모든 층 Bonferroni 상한이 동시에 모집단 층 값을 덮음,1.0,500
+P2 category,중립(균등) UMVUE ± Hoeffding 반폭이 모집단 값을 덮음,1.0,500
+P3 level,상한 U_env(r=1.0) >= 모집단 값,0.998,500
+P3 level,상한 U_env(r=1.5) >= 모집단 값,1.0,500
+P3 level,상한 U_env(r=2.0) >= 모집단 값,1.0,500
+P3 level,상한 U_env(r=3.0) >= 모집단 값,1.0,500
+P3 level,모든 층 Bonferroni 상한이 동시에 모집단 층 값을 덮음,1.0,500
+P3 level,중립(균등) UMVUE ± Hoeffding 반폭이 모집단 값을 덮음,1.0,500
