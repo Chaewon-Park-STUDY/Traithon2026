@@ -1,0 +1,6 @@
+어댑터 동일성 확인 (2026-11-15)
+- 어댑터: adapter_final (소이 백업 11/6), adapter_model.safetensors 161,533,192 bytes, sha256 앞 16자리 d9d5c46239ec1d70
+- 구성: base skt/A.X-4.0-Light, LoRA r=16, alpha=32, dropout 0.05, q/k/v/o/gate/up/down, peft 0.21.2
+- 확인: 기존 main_test 점수(scores_axft.csv)와 같은 기사 100개를 새 환경(torch 2.6.0+cu124, transformers 5.20.2, peft 0.21.3)에서 재채점
+- 본문 1,500자 이하 83개(절단 영향 없음): corr 0.99995, mean|dp| 0.0007, max|dp| 0.045
+- 본문 1,500자 초과 17개: 기존 채점과 절단 길이가 달라(score_ax.py는 1,800자) 차이가 큼. 그래서 d40은 같은 절단의 대조 원본을 다시 채점해 비교한다(PREREG 결정 1).
