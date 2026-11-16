@@ -1,0 +1,6 @@
+﻿family,attack_글자,placebo_글자
+delimiter_escape,52.0,54.1
+fewshot_leak,73.0,72.2
+obfuscated_spacing,46.0,48.4
+other_language,30.9,35.8
+social_pressure,56.5,58.0
